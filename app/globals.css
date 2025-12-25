@@ -72,3 +72,30 @@
     @apply px-4 py-20 md:px-8 max-w-7xl mx-auto;
   }
 }
+
+@media (pointer: fine) {
+  body, a, button, input, [role="button"] {
+    cursor: none !important;
+  }
+}
+
+/* En caso de que cargue el sitio y el custom cursor falle, asegurar usabilidad */
+html.no-js body {
+  cursor: auto !important;
+}
+
+@keyframes marquee {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(-100%); }
+}
+@keyframes marquee2 {
+  0% { transform: translateX(100%); }
+  100% { transform: translateX(0); }
+}
+
+.animate-marquee {
+  animation: marquee 25s linear infinite;
+}
+.animate-marquee2 {
+  animation: marquee2 25s linear infinite;
+}

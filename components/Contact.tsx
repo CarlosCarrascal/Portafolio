@@ -1,62 +1,44 @@
 "use client";
 
-import { motion } from "framer-motion";
-import { Mail, Linkedin, Github, Copy, Check } from "lucide-react";
-import { useState } from "react";
+import { ArrowUpRight } from "lucide-react";
 
 export default function Contact() {
-  const [copied, setCopied] = useState(false);
-  const email = "tu@email.com"; // ¡REEMPLAZA ESTO!
-
-  const handleCopy = () => {
-    navigator.clipboard.writeText(email);
-    setCopied(true);
-    setTimeout(() => setCopied(false), 2000);
-  };
-
   return (
-    <section id="contact" className="section-padding pb-32">
-      <motion.div 
-        initial={{ opacity: 0, scale: 0.95 }}
-        whileInView={{ opacity: 1, scale: 1 }}
-        viewport={{ once: true }}
-        className="glass rounded-[3rem] p-8 md:p-16 text-center relative overflow-hidden"
-      >
-        {/* Fondo decorativo */}
-        <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full h-full bg-gradient-to-b from-primary/10 to-transparent pointer-events-none"></div>
-
-        <div className="relative z-10 max-w-2xl mx-auto">
-          <h2 className="text-4xl md:text-6xl font-bold text-white mb-6">
-            ¿Trabajamos juntos?
+    <section id="contact" className="py-32 px-6 md:px-12 bg-[#020617] min-h-[60vh] flex flex-col justify-center">
+      <div className="max-w-7xl mx-auto w-full">
+        <p className="text-white/40 font-mono text-sm uppercase tracking-widest mb-8">
+          ¿Tienes una idea?
+        </p>
+        
+        <a 
+          href="mailto:tu@email.com" 
+          className="group block w-full relative"
+        >
+          <h2 className="text-[8vw] md:text-[10vw] font-bold text-white leading-none tracking-tighter group-hover:text-primary transition-colors duration-300">
+            Hablemos.
           </h2>
-          <p className="text-xl text-text-muted mb-10">
-            Siempre estoy abierto a discutir nuevos proyectos, ideas de productos o oportunidades de colaboración tecnológica.
-          </p>
+          <ArrowUpRight className="absolute top-2 right-0 w-[5vw] h-[5vw] text-white/20 group-hover:text-primary group-hover:top-0 group-hover:right-[-20px] transition-all duration-500" />
+        </a>
 
-          <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
-            {/* Botón de Email con Copiar */}
-            <button 
-              onClick={handleCopy}
-              className="group relative flex items-center justify-center gap-3 bg-white text-black px-8 py-4 rounded-full font-bold text-lg hover:bg-gray-200 transition-all w-full sm:w-auto"
-            >
-              <Mail className="w-5 h-5" />
-              <span>{email}</span>
-              {copied ? <Check className="w-4 h-4 text-green-600" /> : <Copy className="w-4 h-4 opacity-50 group-hover:opacity-100" />}
-            </button>
-
-            {/* LinkedIn */}
-            <a 
-              href="https://linkedin.com/in/tuusuario" // ¡REEMPLAZA ESTO!
-              target="_blank"
-              rel="noopener noreferrer"
-              className="flex items-center justify-center gap-3 bg-white/5 text-white border border-white/10 px-8 py-4 rounded-full font-bold text-lg hover:bg-white/10 transition-all w-full sm:w-auto"
-            >
-              <Linkedin className="w-5 h-5" />
-              LinkedIn
-            </a>
-          </div>
+        <div className="flex flex-col md:flex-row justify-between items-start md:items-end mt-24 gap-8">
+           <div className="flex gap-8">
+              <FooterLink href="#" text="LinkedIn" />
+              <FooterLink href="#" text="GitHub" />
+              <FooterLink href="#" text="Instagram" />
+           </div>
+           <p className="text-white/20 text-sm">
+             © 2025 Carlos Carrascal. All rights reserved.
+           </p>
         </div>
-      </motion.div>
+      </div>
     </section>
+  );
+}
+
+function FooterLink({ href, text }: { href: string; text: string }) {
+  return (
+    <a href={href} className="text-white text-lg font-medium hover:underline decoration-primary underline-offset-4">
+      {text}
+    </a>
   );
 }

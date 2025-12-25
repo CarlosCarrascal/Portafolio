@@ -1,124 +1,150 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { Github, Linkedin, Mail, MapPin, Smartphone, Code2 } from "lucide-react";
+import { ArrowDownRight, Github, Linkedin, Mail } from "lucide-react";
 
 export default function Hero() {
-  // Variantes para animación escalonada
+  // Animación de texto que sube (mask reveal)
+  const textVariant = {
+    hidden: { y: "100%" },
+    visible: (i: number) => ({
+      y: 0,
+      transition: {
+        duration: 1,
+        ease: [0.76, 0, 0.24, 1],
+        delay: i * 0.1 + 2.2, // Delay para esperar al Preloader
+      },
+    }),
+  };
+
   const container = {
-    hidden: { opacity: 0 },
-    show: {
-      opacity: 1,
+    visible: {
       transition: {
         staggerChildren: 0.1,
-        delayChildren: 2.2, // Espera a que termine el Preloader (2s + buffer)
       },
     },
   };
 
-  const item = {
-    hidden: { opacity: 0, y: 20 },
-    show: { opacity: 1, y: 0, transition: { duration: 0.5, ease: [0.4, 0, 0.2, 1] as any } },
-  };
-
   return (
-    <section className="section-padding pt-32 min-h-screen flex flex-col justify-center">
-      <motion.div 
-        variants={container}
-        initial="hidden"
-        animate="show"
-        className="grid grid-cols-1 md:grid-cols-4 md:grid-rows-3 gap-4 h-full"
-      >
+    <section className="relative min-h-screen w-full flex flex-col justify-center px-6 md:px-12 lg:px-24 overflow-hidden bg-[#020617]">
+      
+      {/* Fondo Ambiental Sutil (Sin cajas) */}
+      <div className="absolute top-[-20%] right-[-10%] w-[600px] h-[600px] bg-primary/20 rounded-full blur-[120px] pointer-events-none opacity-40 mix-blend-screen" />
+      <div className="absolute bottom-[-10%] left-[-10%] w-[500px] h-[500px] bg-blue-600/10 rounded-full blur-[100px] pointer-events-none opacity-30" />
+
+      {/* Contenido Principal */}
+      <div className="z-10 w-full max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-12 gap-12 items-end">
         
-        {/* Tarjeta Principal - Intro */}
-        <motion.div variants={item} className="md:col-span-2 md:row-span-2 glass rounded-3xl p-8 flex flex-col justify-between relative overflow-hidden group">
-          <div className="absolute top-0 right-0 w-64 h-64 bg-primary/20 rounded-full blur-3xl -translate-y-1/2 translate-x-1/2 group-hover:bg-primary/30 transition-all duration-500"></div>
-          
-          <div>
-            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-secondary/10 border border-secondary/20 text-secondary text-xs font-medium mb-6">
-              <span className="relative flex h-2 w-2">
-                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-secondary opacity-75"></span>
-                <span className="relative inline-flex rounded-full h-2 w-2 bg-secondary"></span>
-              </span>
-              Disponible para proyectos
+        {/* Columna Izquierda: Tipografía Gigante */}
+        <div className="lg:col-span-8 flex flex-col">
+            
+          {/* ROL / ETIQUETA SUPERIOR */}
+          <motion.div 
+             initial={{ opacity: 0 }} 
+             animate={{ opacity: 1 }} 
+             transition={{ delay: 2.5, duration: 1 }}
+             className="flex items-center gap-4 mb-6"
+          >
+            <span className="w-12 h-[1px] bg-white/30"></span>
+            <span className="text-sm font-mono tracking-widest text-white/60 uppercase">
+              Full Stack & IoT Engineer
+            </span>
+          </motion.div>
+
+          {/* NOMBRE GIGANTE (MASK EFFECT) */}
+          <div className="overflow-hidden">
+            <motion.h1 
+                custom={0} 
+                variants={textVariant} 
+                initial="hidden" 
+                animate="visible"
+                className="text-[12vw] lg:text-[140px] leading-[0.9] font-bold tracking-tighter text-white uppercase"
+            >
+              Carlos
+            </motion.h1>
+          </div>
+          <div className="overflow-hidden">
+             <motion.h1 
+                custom={1} 
+                variants={textVariant} 
+                initial="hidden" 
+                animate="visible"
+                className="text-[12vw] lg:text-[140px] leading-[0.9] font-bold tracking-tighter text-gray-500 uppercase"
+            >
+              Carrascal
+            </motion.h1>
+          </div>
+        </div>
+
+        {/* Columna Derecha: Descripción y CTA (Minimalista) */}
+        <div className="lg:col-span-4 flex flex-col justify-end pb-4">
+           <motion.p 
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 3, duration: 1 }}
+              className="text-lg text-white/70 leading-relaxed mb-8 max-w-md"
+           >
+             Ingeniero de software especializado en arquitecturas escalables. Transformo conceptos complejos en ecosistemas digitales fluidos usando 
+             <span className="text-white font-medium"> Flutter</span>, 
+             <span className="text-white font-medium"> AWS</span> y 
+             <span className="text-white font-medium"> IoT</span>.
+           </motion.p>
+
+           {/* Botones SIN CARDS */}
+           <motion.div 
+             initial={{ opacity: 0 }}
+             animate={{ opacity: 1 }}
+             transition={{ delay: 3.2, duration: 1 }}
+             className="flex items-center gap-8"
+           >
+              <a href="#projects" className="group flex items-center gap-2 text-white font-bold text-lg hover:text-primary transition-colors">
+                 Ver Proyectos
+                 <ArrowDownRight className="w-5 h-5 group-hover:rotate-45 transition-transform duration-300" />
+              </a>
+              
+              <div className="flex gap-4">
+                 <SocialLink href="https://github.com/CarlosCarrascal" icon={<Github className="w-5 h-5" />} />
+                 <SocialLink href="#" icon={<Linkedin className="w-5 h-5" />} />
+                 <SocialLink href="mailto:tu@email.com" icon={<Mail className="w-5 h-5" />} />
+              </div>
+           </motion.div>
+        </div>
+      </div>
+
+      {/* Footer del Hero: Stack Tecnológico (Ticker o Lista limpia) */}
+      <motion.div 
+         initial={{ opacity: 0 }}
+         animate={{ opacity: 1 }}
+         transition={{ delay: 3.5, duration: 1 }}
+         className="absolute bottom-12 left-0 w-full px-6 md:px-24"
+      >
+        <div className="w-full h-[1px] bg-white/10 mb-6"></div>
+        <div className="flex flex-wrap justify-between items-center gap-6 text-sm font-mono text-white/40 uppercase tracking-widest">
+            <span>Based in Peru</span>
+            <div className="flex gap-8">
+               <span>Flutter</span>
+               <span>React / Next.js</span>
+               <span>Node.js</span>
+               <span>AWS Cloud</span>
             </div>
-            {/* CORRECCIÓN DE NOMBRE AQUÍ */}
-            <h1 className="text-4xl md:text-5xl font-bold tracking-tight text-white mb-2">
-              Hola, soy Carlos <span className="text-muted-foreground">👋</span>
-            </h1>
-            <h2 className="text-xl text-primary font-medium mb-4">Ingeniero de Software & Full Stack</h2>
-            <p className="text-text-muted text-lg max-w-md text-balance">
-              Especialista en crear ecosistemas digitales completos. Desde apps móviles nativas con <strong>Flutter</strong> hasta arquitecturas backend robustas en <strong>AWS</strong>.
-            </p>
-          </div>
-
-          <div className="flex gap-4 mt-8 z-10">
-            <a href="#contact" className="bg-white text-black px-6 py-3 rounded-xl font-bold hover:bg-gray-200 transition-colors flex items-center gap-2">
-              Contáctame <Mail className="w-4 h-4" />
-            </a>
-            <a href="#projects" className="px-6 py-3 rounded-xl font-medium text-white border border-white/10 hover:bg-white/5 transition-colors">
-              Ver Trabajo
-            </a>
-          </div>
-        </motion.div>
-
-        {/* Tarjeta Avatar */}
-        <motion.div variants={item} className="md:col-span-1 md:row-span-2 glass rounded-3xl p-4 flex items-center justify-center relative overflow-hidden card-hover group">
-          <div className="absolute inset-0 bg-gradient-to-tr from-primary/20 to-accent/20 opacity-50 group-hover:opacity-100 transition-opacity duration-500"></div>
-          <div className="text-center z-10">
-             <div className="w-32 h-32 mx-auto bg-gradient-to-br from-gray-800 to-black rounded-full flex items-center justify-center border-4 border-surface shadow-2xl mb-4">
-                <span className="text-4xl">👨‍💻</span>
-             </div>
-             <p className="text-sm text-text-muted font-medium">H2Go Project Lead</p>
-             <p className="text-xs text-text-muted/60">IoT & Mobile Dev</p>
-          </div>
-        </motion.div>
-
-        {/* Tarjeta Mapa */}
-        <motion.div variants={item} className="md:col-span-1 md:row-span-1 glass rounded-3xl p-6 flex flex-col justify-center items-start card-hover">
-          <MapPin className="w-8 h-8 text-accent mb-2" />
-          <h3 className="text-lg font-bold text-white">Trujillo, Perú</h3>
-          <p className="text-xs text-text-muted">Zona horaria GMT-5</p>
-        </motion.div>
-
-        {/* Tarjeta Tech Stack Rápido 1 */}
-        <motion.div variants={item} className="md:col-span-1 md:row-span-1 glass rounded-3xl p-6 flex flex-col justify-between card-hover border-l-4 border-l-blue-500">
-           <Smartphone className="w-8 h-8 text-blue-400" />
-           <div>
-             <h3 className="font-bold text-white">Flutter Expert</h3>
-             <p className="text-xs text-text-muted">Dart, Bloc, Clean Arch</p>
-           </div>
-        </motion.div>
-
-        {/* Tarjeta Social Links */}
-        <motion.div variants={item} className="md:col-span-1 md:row-span-1 glass rounded-3xl p-6 flex items-center justify-around">
-          <a href="https://github.com/CarlosCarrascal" target="_blank" className="p-3 bg-white/5 rounded-full hover:bg-white/20 hover:text-white transition-all text-text-muted">
-            <Github className="w-6 h-6" />
-          </a>
-          <a href="#" className="p-3 bg-white/5 rounded-full hover:bg-blue-600/20 hover:text-blue-400 transition-all text-text-muted">
-            <Linkedin className="w-6 h-6" />
-          </a>
-        </motion.div>
-
-        {/* Tarjeta Tech Stack Rápido 2 - Backend */}
-        <motion.div variants={item} className="md:col-span-3 md:row-span-1 glass rounded-3xl p-8 flex items-center justify-between card-hover relative overflow-hidden">
-           <div className="absolute right-0 top-0 h-full w-1/3 bg-gradient-to-l from-primary/10 to-transparent"></div>
-           <div className="z-10">
-             <h3 className="text-2xl font-bold text-white mb-2 flex items-center gap-2">
-               <Code2 className="w-6 h-6 text-primary" /> Backend & Cloud
-             </h3>
-             <p className="text-text-muted">Experiencia sólida desplegando en AWS (EC2, RDS) e integrando dispositivos IoT.</p>
-           </div>
-           <div className="hidden md:flex gap-3 z-10">
-              {['Node.js', 'PostgreSQL', 'AWS', 'Firebase', 'IoT'].map((tech) => (
-                <span key={tech} className="px-3 py-1 rounded-lg bg-surface border border-white/10 text-xs font-mono text-primary">
-                  {tech}
-                </span>
-              ))}
-           </div>
-        </motion.div>
-
+            <span>(2025 Edition)</span>
+        </div>
       </motion.div>
+
     </section>
+  );
+}
+
+// Componente pequeño para links sociales limpios (sin botones grandes)
+function SocialLink({ href, icon }: { href: string; icon: React.ReactNode }) {
+  return (
+    <a 
+      href={href} 
+      target="_blank" 
+      rel="noopener noreferrer"
+      className="w-10 h-10 flex items-center justify-center rounded-full border border-white/10 text-white/60 hover:text-white hover:border-white hover:bg-white/5 transition-all duration-300"
+    >
+      {icon}
+    </a>
   );
 }

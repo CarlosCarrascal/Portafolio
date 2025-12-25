@@ -6,26 +6,30 @@ import { motion, useSpring, useMotionValue } from "framer-motion";
 export default function CustomCursor() {
   const [isHovered, setIsHovered] = useState(false);
   
-  // Posición del mouse (valores crudos)
-  const mouseX = useMotionValue(0);
-  const mouseY = useMotionValue(0);
+  // Coordenadas
+  const mouseX = useMotionValue(-100);
+  const mouseY = useMotionValue(-100);
 
-  // Física del cursor (Spring suave)
+  // Física muy suave para el seguidor (ajustado para que no "tiemble")
   const springConfig = { damping: 20, stiffness: 150, mass: 0.5 };
   const cursorX = useSpring(mouseX, springConfig);
   const cursorY = useSpring(mouseY, springConfig);
 
   useEffect(() => {
     const manageMouseMove = (e: MouseEvent) => {
-      const { clientX, clientY } = e;
-      mouseX.set(clientX);
-      mouseY.set(clientY);
+      mouseX.set(e.clientX);
+      mouseY.set(e.clientY);
     };
 
     const manageMouseOver = (e: MouseEvent) => {
       const target = e.target as HTMLElement;
-      // Detectamos botones, enlaces o cualquier elemento clicable
-      if ( target.tagName === 'A' || target.tagName === 'BUTTON' || target.closest('a') || target.closest('button') ) {
+      if (
+        target.tagName === 'A' || 
+        target.tagName === 'BUTTON' || 
+        target.closest('a') || 
+        target.closest('button') ||
+        target.classList.contains('cursor-pointer')
+      ) {
         setIsHovered(true);
       } else {
         setIsHovered(false);
@@ -33,7 +37,7 @@ export default function CustomCursor() {
     };
 
     window.addEventListener("mousemove", manageMouseMove);
-    window.addEventListener("mouseover", manageMouseOver); // Usamos mouseover global para mejor performance
+    window.addEventListener("mouseover", manageMouseOver);
 
     return () => {
       window.removeEventListener("mousemove", manageMouseMove);
@@ -42,31 +46,44 @@ export default function CustomCursor() {
   }, [mouseX, mouseY]);
 
   return (
-    <div className="fixed inset-0 pointer-events-none z-[9998] hidden md:block mix-blend-difference">
+    <>
+      {/* 1. SEGUIDOR GRANDE (CÍRCULO) */}
       <motion.div 
-        className="absolute bg-white rounded-full flex items-center justify-center"
+        className="fixed top-0 left-0 z-[9999] pointer-events-none mix-blend-difference hidden md:flex items-center justify-center"
         style={{
-          left: cursorX,
-          top: cursorY,
+            x: cursorX,
+            y: cursorY,
+            translateX: "-50%",
+            translateY: "-50%",
+        }}
+      >
+        <motion.div
+            animate={{
+                width: isHovered ? 50 : 20,  // Crece sutilmente
+                height: isHovered ? 50 : 20,
+                backgroundColor: isHovered ? "white" : "transparent",
+                border: isHovered ? "none" : "1px solid white",
+            }}
+            transition={{ type: "tween", ease: "backOut", duration: 0.3 }}
+            className="rounded-full flex items-center justify-center"
+        >
+             {/* AQUÍ QUITAMOS EL TEXTO "VIEW/OPEN" */}
+        </motion.div>
+      </motion.div>
+
+      {/* 2. PUNTO CENTRAL FIJO (PRECISIÓN) */}
+      <motion.div 
+        className="fixed top-0 left-0 z-[9999] pointer-events-none mix-blend-difference hidden md:block"
+        style={{
+          x: mouseX, 
+          y: mouseY,
           translateX: "-50%",
           translateY: "-50%"
         }}
-        animate={{
-          width: isHovered ? 80 : 12, // Crece significativamente al hacer hover
-          height: isHovered ? 80 : 12,
-          opacity: isHovered ? 1 : 1, // Siempre visible, el mix-blend hace el truco
-        }}
-        transition={{ type: "tween", ease: "backOut", duration: 0.3 }}
       >
-        {/* Texto opcional que aparece dentro del cursor al hacer hover */}
-        <motion.span 
-            initial={{ opacity: 0, scale: 0 }}
-            animate={{ opacity: isHovered ? 1 : 0, scale: isHovered ? 1 : 0 }}
-            className="text-[10px] font-bold text-black uppercase tracking-widest"
-        >
-            OPEN
-        </motion.span>
+        {/* El punto desaparece al hacer hover para dejar ver el círculo lleno */}
+        <div className={`w-1.5 h-1.5 bg-white rounded-full transition-opacity duration-200 ${isHovered ? 'opacity-0' : 'opacity-100'}`} />
       </motion.div>
-    </div>
+    </>
   );
 }
