@@ -1,110 +1,104 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { ExternalLink, Github } from "lucide-react";
+import { Github, ExternalLink, Code2 } from "lucide-react";
 import Image from "next/image";
 
+// Actualizamos la interfaz para que coincida con tu JSON real
 interface ProjectProps {
-  project: {
-    id: number;
-    title: string;
-    description: string;
-    problem: string;
-    role: string;
-    tech: string[];
-    challenges: string;
-    result: string;
-    image: string;
-    demoUrl: string;
-    repoUrl: string;
-    category: string;
-  };
-  index: number;
+  id: number;
+  title: string;
+  description: string;
+  image: string;
+  tech: string[];      // Antes era 'tags'
+  repoUrl?: string;    // Antes era 'githubUrl'
+  demoUrl?: string;    // Antes era 'liveUrl'
+  category: string;
 }
 
-export default function ProjectCard({ project, index }: ProjectProps) {
+export default function ProjectCard({ project, index }: { project: ProjectProps; index: number }) {
   return (
-    <motion.article
+    <motion.div
       initial={{ opacity: 0, y: 20 }}
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true }}
-      transition={{ duration: 0.5, delay: index * 0.1 }}
-      className="bg-white border border-gray-200 rounded-xl overflow-hidden hover:shadow-xl transition-shadow duration-300 flex flex-col h-full"
+      transition={{ delay: index * 0.1, duration: 0.5 }}
+      className="group relative rounded-3xl overflow-hidden bg-surface/50 border border-white/10 hover:border-primary/50 transition-all duration-300 hover:shadow-2xl hover:shadow-primary/10 flex flex-col h-full"
     >
-      {/* Imagen */}
-      <div className="relative h-56 bg-gray-100">
-        <Image
-          src={project.image}
-          alt={`Screenshot de ${project.title}`}
-          fill
-          className="object-cover"
-          sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-        />
+      {/* Imagen del Proyecto con Overlay */}
+      <div className="relative h-48 w-full overflow-hidden">
+        {/* Gradiente overlay para legibilidad */}
+        <div className="absolute inset-0 bg-gradient-to-t from-surface via-transparent to-transparent z-10 opacity-60" />
+        
+        {/* Imagen */}
+        <div className="relative h-full w-full group-hover:scale-110 transition-transform duration-700 ease-out">
+           {project.image ? (
+             <Image 
+               src={project.image} 
+               alt={project.title} 
+               fill 
+               className="object-cover"
+             />
+           ) : (
+             <div className="w-full h-full bg-surfaceHighlight flex items-center justify-center">
+                <Code2 className="w-12 h-12 text-white/20" />
+             </div>
+           )}
+        </div>
+        
+        {/* Categoría flotante */}
+        <div className="absolute top-4 right-4 z-20">
+          <span className="px-3 py-1 text-xs font-bold uppercase tracking-wider text-white bg-black/50 backdrop-blur-md rounded-full border border-white/10 shadow-sm">
+            {project.category}
+          </span>
+        </div>
       </div>
 
       {/* Contenido */}
-      <div className="p-6 flex-1 flex flex-col">
-        {/* Título */}
-        <h3 className="text-2xl font-bold mb-3 text-gray-900">{project.title}</h3>
+      <div className="p-6 flex flex-col flex-grow z-20">
+        <h3 className="text-xl font-bold text-white mb-2 group-hover:text-primary transition-colors">
+          {project.title}
+        </h3>
+        <p className="text-text-muted text-sm mb-6 line-clamp-3 flex-grow">
+          {project.description}
+        </p>
 
-        {/* Descripción corta */}
-        <p className="text-gray-600 mb-4">{project.description}</p>
-
-        {/* Problema */}
-        <div className="mb-4">
-          <h4 className="text-sm font-semibold text-gray-900 mb-1">Problema</h4>
-          <p className="text-sm text-gray-600">{project.problem}</p>
+        {/* Tags (Aquí estaba el error, ahora usamos project.tech) */}
+        <div className="flex flex-wrap gap-2 mb-6">
+          {project.tech && project.tech.map((tag) => (
+            <span 
+              key={tag} 
+              className="px-2 py-1 text-xs rounded-md bg-white/5 text-primary border border-primary/20"
+            >
+              {tag}
+            </span>
+          ))}
         </div>
 
-        {/* Rol */}
-        <div className="mb-4">
-          <h4 className="text-sm font-semibold text-gray-900 mb-1">Mi Rol</h4>
-          <p className="text-sm text-gray-600">{project.role}</p>
-        </div>
-
-        {/* Tecnologías */}
-        <div className="mb-4">
-          <h4 className="text-sm font-semibold text-gray-900 mb-2">Stack</h4>
-          <div className="flex flex-wrap gap-2">
-            {project.tech.map((tech) => (
-              <span
-                key={tech}
-                className="px-3 py-1 bg-blue-50 text-blue-700 text-xs font-medium rounded-full"
-              >
-                {tech}
-              </span>
-            ))}
-          </div>
-        </div>
-
-        {/* Retos */}
-        <div className="mb-6">
-          <h4 className="text-sm font-semibold text-gray-900 mb-1">Reto Principal</h4>
-          <p className="text-sm text-gray-600">{project.challenges}</p>
-        </div>
-
-        {/* Links */}
-        <div className="flex items-center gap-4 mt-auto pt-4 border-t border-gray-100">
-          <a
-            href={project.demoUrl}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="flex items-center gap-2 text-blue-600 hover:text-blue-700 font-medium text-sm transition-colors"
-          >
-            <ExternalLink className="w-4 h-4" />
-            Demo
-          </a>
-          <a
-            href={project.repoUrl}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="flex items-center gap-2 text-gray-700 hover:text-gray-900 font-medium text-sm transition-colors"
-          >
-            <Github className="w-4 h-4" />
-            Código
-          </a>
+        {/* Botones de Acción */}
+        <div className="flex items-center gap-4 mt-auto">
+          {project.repoUrl && (
+            <a
+              href={project.repoUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="flex items-center gap-2 text-sm font-medium text-white/70 hover:text-white transition-colors"
+            >
+              <Github className="w-4 h-4" /> Código
+            </a>
+          )}
+          {project.demoUrl && (
+            <a
+              href={project.demoUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="flex items-center gap-2 text-sm font-medium text-primary hover:text-accent transition-colors ml-auto"
+            >
+              Ver Demo <ExternalLink className="w-4 h-4" />
+            </a>
+          )}
         </div>
       </div>
-    </motion.article>
+    </motion.div>
   );
 }

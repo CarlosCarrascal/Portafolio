@@ -17,24 +17,10 @@ export const metadata: Metadata = {
   openGraph: {
     title: "Carlos Carrascal | Full-Stack Developer",
     description: "Full-Stack Developer especializado en Next.js, Node.js, MongoDB y Flutter.",
-    url: "https://tudominio.com", // Cambia por tu dominio
+    url: "https://tudominio.com",
     siteName: "Carlos Carrascal Portfolio",
     locale: "es_PE",
     type: "website",
-    images: [
-      {
-        url: "/og-image.jpg", // Agrega una imagen OG en /public
-        width: 1200,
-        height: 630,
-        alt: "Carlos Carrascal - Full-Stack Developer",
-      },
-    ],
-  },
-  twitter: {
-    card: "summary_large_image",
-    title: "Carlos Carrascal | Full-Stack Developer",
-    description: "Full-Stack Developer especializado en Next.js, Node.js, MongoDB y Flutter.",
-    images: ["/og-image.jpg"],
   },
   robots: {
     index: true,
@@ -49,7 +35,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="es" className="scroll-smooth">
-      <body className={`${inter.className} antialiased bg-gray-50 text-gray-900`}>
+      <body className={`${inter.className} antialiased`}>
         <Header />
         <main className="min-h-screen">
           {children}

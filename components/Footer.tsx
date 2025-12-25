@@ -1,44 +1,10 @@
-import { Github, Linkedin, Mail } from "lucide-react";
-
 export default function Footer() {
   return (
-    <footer className="bg-gray-900 text-white py-12">
+    <footer className="py-8 border-t border-white/5 bg-background text-center">
       <div className="container-custom">
-        <div className="flex flex-col md:flex-row items-center justify-between gap-6">
-          {/* Copyright */}
-          <p className="text-gray-400 text-sm">
-            © {new Date().getFullYear()} Carlos Carrascal. Todos los derechos reservados.
-          </p>
-
-          {/* Social Links */}
-          <div className="flex items-center gap-6">
-            <a
-              href="https://github.com/CarlosCarrascal"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="text-gray-400 hover:text-white transition-colors"
-              aria-label="GitHub"
-            >
-              <Github className="w-5 h-5" />
-            </a>
-            <a
-              href="https://linkedin.com/in/tuusuario"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="text-gray-400 hover:text-white transition-colors"
-              aria-label="LinkedIn"
-            >
-              <Linkedin className="w-5 h-5" />
-            </a>
-            <a
-              href="mailto:tu@email.com"
-              className="text-gray-400 hover:text-white transition-colors"
-              aria-label="Email"
-            >
-              <Mail className="w-5 h-5" />
-            </a>
-          </div>
-        </div>
+        <p className="text-text-muted text-sm">
+          © {new Date().getFullYear()} Carlos Carrascal. Construido con <span className="text-primary">Next.js 15</span> & <span className="text-primary">Tailwind CSS</span>.
+        </p>
       </div>
     </footer>
   );

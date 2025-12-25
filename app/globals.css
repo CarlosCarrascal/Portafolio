@@ -1,43 +1,74 @@
 @import "tailwindcss";
 
-@layer base {
-  :root {
-    --color-primary: 59 130 246;
-    --color-secondary: 99 102 241;
-    --color-accent: 168 85 247;
-  }
+/* Configuración del Tema (Tailwind v4) */
+@theme {
+  --color-background: #020617;       /* Slate 950 */
+  --color-surface: #0f172a;          /* Slate 900 */
+  --color-surfaceHighlight: #1e293b; /* Slate 800 */
+  
+  --color-primary: #8b5cf6;          /* Violeta */
+  --color-secondary: #10b981;        /* Esmeralda */
+  --color-accent: #d946ef;           /* Fucsia */
+  
+  --color-text-main: #f8fafc;        /* Blanco roto */
+  --color-text-muted: #94a3b8;       /* Gris azulado */
 
-  html {
-    scroll-behavior: smooth;
+  --animate-fade-in: fadeIn 0.5s ease-out forwards;
+  --animate-slide-up: slideUp 0.5s ease-out forwards;
+  --animate-pulse-slow: pulse 4s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+
+  @keyframes fadeIn {
+    0% { opacity: 0; }
+    100% { opacity: 1; }
+  }
+  @keyframes slideUp {
+    0% { opacity: 0; transform: translateY(20px); }
+    100% { opacity: 1; transform: translateY(0); }
   }
 }
 
+/* Estilos Base */
+@layer base {
+  body {
+    /* Usamos las variables directamente o las clases generadas */
+    background-color: var(--color-background);
+    color: var(--color-text-main);
+    font-family: var(--font-sans, system-ui, sans-serif);
+    -webkit-font-smoothing: antialiased;
+    
+    /* Fondo con gradiente sutil */
+    background-image: radial-gradient(circle at center, #1e1b4b 0%, #020617 100%);
+    background-attachment: fixed;
+  }
+
+  /* Scrollbar moderna */
+  ::-webkit-scrollbar {
+    width: 10px;
+  }
+  ::-webkit-scrollbar-track {
+    background: var(--color-background);
+  }
+  ::-webkit-scrollbar-thumb {
+    background-color: var(--color-surfaceHighlight);
+    border-radius: 9999px;
+    border: 2px solid var(--color-background);
+  }
+  ::-webkit-scrollbar-thumb:hover {
+    background-color: #4c1d95; /* primary oscuro */
+  }
+}
+
+/* Clases de Utilidad Personalizadas */
 @layer components {
-  .section {
-    @apply py-16 md:py-24 px-4 sm:px-6 lg:px-8;
+  .glass {
+    @apply bg-surface/70 backdrop-blur-md border border-white/10;
+  }
+  
+  .card-hover {
+    @apply transition-all duration-300 hover:scale-[1.02] hover:bg-surfaceHighlight hover:shadow-xl hover:shadow-primary/10 hover:border-primary/20;
   }
 
-  .container-custom {
-    @apply max-w-7xl mx-auto;
-  }
-
-  .btn-primary {
-    @apply bg-blue-600 hover:bg-blue-700 text-white font-semibold py-3 px-6 rounded-lg transition-all duration-200 hover:scale-105;
-  }
-
-  .btn-secondary {
-    @apply border-2 border-gray-900 hover:bg-gray-900 hover:text-white text-gray-900 font-semibold py-3 px-6 rounded-lg transition-all duration-200;
-  }
-
-  .heading-1 {
-    @apply text-4xl md:text-5xl lg:text-6xl font-bold tracking-tight;
-  }
-
-  .heading-2 {
-    @apply text-3xl md:text-4xl font-bold tracking-tight;
-  }
-
-  .heading-3 {
-    @apply text-2xl md:text-3xl font-bold tracking-tight;
+  .section-padding {
+    @apply px-4 py-20 md:px-8 max-w-7xl mx-auto;
   }
 }
