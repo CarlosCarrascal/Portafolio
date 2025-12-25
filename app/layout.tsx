@@ -1,31 +1,18 @@
 import type { Metadata } from "next";
-import { Inter } from "next/font/google";
+import { Inter, Calistoga } from "next/font/google"; // Asegúrate de tener tus fuentes aquí
 import "./globals.css";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
+import Preloader from "@/components/preloader";     // Nuevo
+import CustomCursor from "@/components/CustomCursor"; // Nuevo
 
-const inter = Inter({ 
-  subsets: ["latin"],
-  display: "swap",
-});
+const inter = Inter({ subsets: ["latin"], variable: "--font-inter" });
+// Si usas otra fuente display, defínela aquí, si no, borra la referencia a Calistoga
+// const calistoga = Calistoga({ weight: "400", subsets: ["latin"], variable: "--font-cal" });
 
 export const metadata: Metadata = {
-  title: "Carlos Carrascal | Full-Stack Developer",
-  description: "Full-Stack Developer especializado en Next.js, Node.js, MongoDB y Flutter. Construyo aplicaciones web y móviles escalables y accesibles.",
-  keywords: ["Full-Stack Developer", "Next.js", "React", "Node.js", "Flutter", "TypeScript", "MongoDB"],
-  authors: [{ name: "Carlos Carrascal" }],
-  openGraph: {
-    title: "Carlos Carrascal | Full-Stack Developer",
-    description: "Full-Stack Developer especializado en Next.js, Node.js, MongoDB y Flutter.",
-    url: "https://tudominio.com",
-    siteName: "Carlos Carrascal Portfolio",
-    locale: "es_PE",
-    type: "website",
-  },
-  robots: {
-    index: true,
-    follow: true,
-  },
+  title: "Carlos Carrascal | Full Stack Developer",
+  description: "Portafolio profesional de Carlos Carrascal.",
 };
 
 export default function RootLayout({
@@ -35,12 +22,19 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="es" className="scroll-smooth">
-      <body className={`${inter.className} antialiased`}>
+      <body className={`${inter.variable} bg-background text-text-main antialiased`}>
+        {/* Componentes Globales de UI */}
+        <Preloader />
+        <CustomCursor />
+        
+        {/* Layout Principal */}
         <Header />
-        <main className="min-h-screen">
+        
+        <main className="min-h-screen relative overflow-x-hidden">
           {children}
         </main>
-        <Footer />
+
+        <Footer /> 
       </body>
     </html>
   );
