@@ -1,28 +1,44 @@
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
+import Header from "@/components/Header";
+import Footer from "@/components/Footer";
 
-const inter = Inter({
+const inter = Inter({ 
   subsets: ["latin"],
   display: "swap",
-  variable: "--font-inter",
 });
 
 export const metadata: Metadata = {
-  title: "Tu Nombre | Full-Stack Developer",
-  description: "Portafolio profesional de Full-Stack Developer especializado en Next.js, React, Node.js y Flutter.",
+  title: "Carlos Carrascal | Full-Stack Developer",
+  description: "Full-Stack Developer especializado en Next.js, Node.js, MongoDB y Flutter. Construyo aplicaciones web y móviles escalables y accesibles.",
+  keywords: ["Full-Stack Developer", "Next.js", "React", "Node.js", "Flutter", "TypeScript", "MongoDB"],
+  authors: [{ name: "Carlos Carrascal" }],
   openGraph: {
-    title: "Tu Nombre | Full-Stack Developer",
-    description: "Portafolio profesional con proyectos full-stack y mobile",
-    url: process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3000",
-    siteName: "Tu Nombre Portfolio",
-    locale: "es_ES",
+    title: "Carlos Carrascal | Full-Stack Developer",
+    description: "Full-Stack Developer especializado en Next.js, Node.js, MongoDB y Flutter.",
+    url: "https://tudominio.com", // Cambia por tu dominio
+    siteName: "Carlos Carrascal Portfolio",
+    locale: "es_PE",
     type: "website",
+    images: [
+      {
+        url: "/og-image.jpg", // Agrega una imagen OG en /public
+        width: 1200,
+        height: 630,
+        alt: "Carlos Carrascal - Full-Stack Developer",
+      },
+    ],
   },
   twitter: {
     card: "summary_large_image",
-    title: "Tu Nombre | Full-Stack Developer",
-    description: "Portafolio profesional con proyectos full-stack y mobile",
+    title: "Carlos Carrascal | Full-Stack Developer",
+    description: "Full-Stack Developer especializado en Next.js, Node.js, MongoDB y Flutter.",
+    images: ["/og-image.jpg"],
+  },
+  robots: {
+    index: true,
+    follow: true,
   },
 };
 
@@ -32,11 +48,13 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="es" className={`${inter.variable} scroll-smooth`}>
-      <body className="bg-white text-gray-900 antialiased">
+    <html lang="es" className="scroll-smooth">
+      <body className={`${inter.className} antialiased bg-gray-50 text-gray-900`}>
+        <Header />
         <main className="min-h-screen">
           {children}
         </main>
+        <Footer />
       </body>
     </html>
   );

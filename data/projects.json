@@ -1,0 +1,58 @@
+[
+  {
+    "id": 1,
+    "title": "E-Commerce Full-Stack",
+    "description": "Plataforma de comercio electrónico completa con carrito, pagos y panel de administración",
+    "problem": "Los pequeños negocios necesitan una solución escalable para vender online sin costos elevados",
+    "role": "Desarrollador Full-Stack (proyecto personal)",
+    "tech": ["Next.js", "TypeScript", "Node.js", "MongoDB", "Stripe", "Tailwind CSS"],
+    "challenges": "Optimizar carga de productos con más de 1000 items y manejar concurrencia en inventario durante alta demanda",
+    "result": "Logré reducir tiempo de carga en 60% con ISR y evitar sobreventa con transacciones atómicas en MongoDB",
+    "image": "/images/projects/ecommerce.jpg",
+    "demoUrl": "https://tuproyecto1.vercel.app",
+    "repoUrl": "https://github.com/CarlosCarrascal/ecommerce",
+    "category": "full-stack"
+  },
+  {
+    "id": 2,
+    "title": "App de Salud Móvil",
+    "description": "Aplicación móvil para seguimiento de hábitos saludables con notificaciones y estadísticas",
+    "problem": "Usuarios olvidan seguir rutinas de salud y necesitan recordatorios personalizados",
+    "role": "Desarrollador Mobile (proyecto personal)",
+    "tech": ["Flutter", "Dart", "Firebase", "Provider", "Local Notifications"],
+    "challenges": "Sincronizar datos offline-first y garantizar notificaciones locales precisas",
+    "result": "Implementé Hive para persistencia local y logré sincronización automática sin pérdida de datos",
+    "image": "/images/projects/health-app.jpg",
+    "demoUrl": "https://play.google.com/store/apps/details?id=com.tuapp",
+    "repoUrl": "https://github.com/CarlosCarrascal/health-app",
+    "category": "mobile"
+  },
+  {
+    "id": 3,
+    "title": "Dashboard Analítico",
+    "description": "Panel de control en tiempo real con gráficos interactivos y exportación de reportes",
+    "problem": "Empresas necesitan visualizar KPIs en tiempo real para tomar decisiones rápidas",
+    "role": "Desarrollador Frontend (freelance)",
+    "tech": ["React", "TypeScript", "Chart.js", "WebSockets", "Material-UI"],
+    "challenges": "Actualizar gráficos en tiempo real sin afectar performance con datasets grandes",
+    "result": "Optimicé con React.memo y useMemo, logrando 60fps con 10,000+ puntos de datos",
+    "image": "/images/projects/dashboard.jpg",
+    "demoUrl": "https://tuproyecto3.vercel.app",
+    "repoUrl": "https://github.com/CarlosCarrascal/dashboard",
+    "category": "web"
+  },
+  {
+    "id": 4,
+    "title": "API REST para IoT",
+    "description": "API escalable para gestionar dispositivos IoT con autenticación JWT y documentación Swagger",
+    "problem": "Sistema legacy no soportaba crecimiento de dispositivos conectados (5000+)",
+    "role": "Backend Developer (proyecto colaborativo)",
+    "tech": ["Node.js", "Express", "MongoDB", "JWT", "Docker", "Swagger"],
+    "challenges": "Escalar arquitectura para manejar 10,000 dispositivos simultáneos",
+    "result": "Implementé rate limiting y caching con Redis, reduciendo latencia en 70%",
+    "image": "/images/projects/iot-api.jpg",
+    "demoUrl": "https://api.tuproyecto4.com/docs",
+    "repoUrl": "https://github.com/CarlosCarrascal/iot-api",
+    "category": "full-stack"
+  }
+]
