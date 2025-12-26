@@ -4,7 +4,9 @@ import { ArrowUpRight } from "lucide-react";
 
 export default function Contact() {
   return (
-    <section id="contact" className="py-32 px-6 md:px-12 bg-[#020617] min-h-[60vh] flex flex-col justify-center">
+    // ELIMINADO: bg-[#020617]
+    // AÑADIDO: relative z-10
+    <section id="contact" className="relative z-10 py-32 px-6 md:px-12 min-h-[60vh] flex flex-col justify-center">
       <div className="max-w-7xl mx-auto w-full">
         <p className="text-white/40 font-mono text-sm uppercase tracking-widest mb-8">
           ¿Tienes una idea?

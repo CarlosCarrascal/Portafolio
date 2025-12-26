@@ -9,30 +9,25 @@ import projectsData from "@/data/projects.json";
 export default function Projects() {
   const targetRef = useRef<HTMLDivElement | null>(null);
   
-  // Detectamos scroll SOLO dentro de esta sección
   const { scrollYProgress } = useScroll({
     target: targetRef,
-    // "start start": cuando el top de la sección toca el top del viewport
-    // "end end": cuando el fondo de la sección toca el fondo del viewport
     offset: ["start start", "end end"] 
   });
 
-  // Transformación horizontal (Ajustada para que no deje tanto hueco al final)
-  // Si tienes pocos proyectos, usa un valor menor (ej: "-60%")
-  // Si tienes muchos, usa uno mayor (ej: "-90%")
   const x = useTransform(scrollYProgress, [0, 1], ["0%", "-85%"]);
 
   return (
-    <section id="projects" className="bg-[#020617] relative z-10">
+    // ELIMINADO: bg-[#020617]
+    // AÑADIDO: relative z-10 para estar sobre el fondo
+    <section id="projects" className="relative z-10">
       
       {/* =========================================
           VERSIÓN DESKTOP (Horizontal Scroll) 
-          Solo visible en pantallas medianas hacia arriba (md:block)
          ========================================= */}
       <div ref={targetRef} className="hidden md:block h-[300vh] relative">
         <div className="sticky top-0 flex h-screen items-center overflow-hidden">
           
-          {/* Título de Fondo */}
+          {/* Título de Fondo (Ahora flota sobre el fondo global) */}
           <div className="absolute top-20 left-20 z-0 opacity-10 pointer-events-none">
              <h2 className="text-[10vw] font-bold text-white leading-none tracking-tighter">
                  SELECTED
@@ -76,8 +71,7 @@ export default function Projects() {
 
 
       {/* =========================================
-          VERSIÓN MOBILE (Vertical List) 
-          Solo visible en pantallas pequeñas (md:hidden)
+          VERSIÓN MOBILE
          ========================================= */}
       <div className="block md:hidden py-20 px-6">
         <div className="mb-12">
@@ -102,12 +96,11 @@ export default function Projects() {
   );
 }
 
-// --- SUB-COMPONENTES PARA MANTENER EL CÓDIGO LIMPIO ---
-
+// Sub-componentes (Sin cambios, solo heredan transparencia)
 function ProjectItemDesktop({ project }: { project: any }) {
   return (
     <div className="relative group min-w-[60vw] lg:min-w-[45vw] flex flex-col gap-6">
-      <div className="relative h-[50vh] w-full overflow-hidden rounded-2xl bg-white/5 border border-white/10">
+      <div className="relative h-[50vh] w-full overflow-hidden rounded-2xl bg-white/5 border border-white/10 backdrop-blur-sm">
          <div className="absolute inset-0 bg-black/20 group-hover:bg-transparent transition-colors duration-500 z-10" />
          
          {project.image ? (
@@ -140,7 +133,7 @@ function ProjectItemDesktop({ project }: { project: any }) {
 function ProjectItemMobile({ project }: { project: any }) {
     return (
       <div className="flex flex-col gap-4">
-        <div className="relative aspect-video w-full overflow-hidden rounded-xl bg-white/5 border border-white/10">
+        <div className="relative aspect-video w-full overflow-hidden rounded-xl bg-white/5 border border-white/10 backdrop-blur-sm">
            {project.image && <Image src={project.image} alt={project.title} fill className="object-cover" />}
         </div>
         <div>

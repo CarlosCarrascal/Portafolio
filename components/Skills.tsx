@@ -8,7 +8,9 @@ export default function Skills() {
   ];
 
   return (
-    <section className="py-24 bg-[#020617] overflow-hidden border-b border-white/5">
+    // ELIMINADO: bg-[#020617]
+    // AÑADIDO: relative z-10
+    <section className="relative z-10 py-24 overflow-hidden border-b border-white/5">
       {/* Título pequeño */}
       <div className="px-6 md:px-12 mb-12">
         <h2 className="text-sm font-mono text-white/40 uppercase tracking-[0.2em]">
@@ -19,7 +21,6 @@ export default function Skills() {
       {/* Marquee (Texto Infinito) */}
       <div className="relative flex overflow-x-hidden group">
         <div className="animate-marquee whitespace-nowrap flex gap-16 md:gap-32">
-          {/* Repetimos 2 veces para el efecto infinito */}
           {[...skills, ...skills].map((skill, i) => (
             <span 
               key={i} 

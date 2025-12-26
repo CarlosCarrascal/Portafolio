@@ -44,11 +44,10 @@ export default function About() {
   ];
 
   return (
-    <section id="about" className="relative bg-[#020617] py-24 px-4 md:px-12 min-h-screen flex flex-col justify-center overflow-hidden">
+    // ELIMINADO: bg-[#020617]
+    // AÑADIDO: relative z-10
+    <section id="about" className="relative z-10 py-32 px-4 md:px-12 min-h-screen flex flex-col justify-center overflow-hidden">
       
-      {/* Fondo Decorativo */}
-      <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-primary/5 rounded-full blur-[120px] pointer-events-none" />
-
       {/* HEADER */}
       <div className="max-w-7xl mx-auto w-full mb-12 flex flex-col md:flex-row md:items-end justify-between gap-6 relative z-10">
          <div>
@@ -71,10 +70,8 @@ export default function About() {
                 <div
                    key={card.id}
                    onClick={() => setActiveCard(index)}
-                   // CLAVE: Usamos 'flex-[x]' de Tailwind con transición CSS nativa.
-                   // duration-500 y ease-out es la combinación más estable.
                    className={`
-                      relative rounded-3xl overflow-hidden border cursor-pointer transition-[flex] duration-500 ease-[cubic-bezier(0.25,1,0.5,1)]
+                      relative rounded-3xl overflow-hidden border cursor-pointer transition-[flex] duration-500 ease-[cubic-bezier(0.25,1,0.5,1)] backdrop-blur-sm
                       ${isActive ? 'flex-[3.5] border-white/20 bg-white/5' : 'flex-[0.5] border-white/5 bg-transparent hover:bg-white/5'}
                    `}
                 >
@@ -82,10 +79,7 @@ export default function About() {
                    {/* FONDO ACTIVO */}
                    <div className={`absolute inset-0 bg-gradient-to-b ${card.bgGradient} transition-opacity duration-500 ${isActive ? 'opacity-100' : 'opacity-0'}`} />
                    
-                   {/* CONTENIDO FLOTANTE (ABSOLUTO)
-                       Al ser absoluto, no afecta el tamaño del padre, evitando el "lag".
-                       Usamos min-w para asegurar que el texto siempre tenga espacio.
-                   */}
+                   {/* CONTENIDO FLOTANTE (ABSOLUTO) */}
                    <div className="absolute inset-0 p-6 md:p-8 flex flex-col justify-between">
                       
                       {/* --- CABECERA --- */}
@@ -107,7 +101,6 @@ export default function About() {
                          </div>
 
                          {/* INFORMACIÓN (Activo) */}
-                         {/* AnimatePresence maneja la entrada/salida suave del texto */}
                          <div className="relative w-full min-w-[300px] md:min-w-[500px]">
                              <AnimatePresence mode="wait">
                                 {isActive && (
@@ -115,7 +108,7 @@ export default function About() {
                                         initial={{ opacity: 0, y: 20 }}
                                         animate={{ opacity: 1, y: 0 }}
                                         exit={{ opacity: 0, transition: { duration: 0.1 } }}
-                                        transition={{ duration: 0.3, delay: 0.2 }} // Delay pequeño para esperar que se abra un poco
+                                        transition={{ duration: 0.3, delay: 0.2 }}
                                     >
                                         <span className="font-mono text-xs uppercase tracking-widest text-white/50 mb-2 block">
                                         0{index + 1} — {card.subtitle}

@@ -4,41 +4,29 @@ import { motion } from "framer-motion";
 import { ArrowDownRight, Github, Linkedin, Mail } from "lucide-react";
 
 export default function Hero() {
-  // Animación de texto que sube (mask reveal)
   const textVariant = {
     hidden: { y: "100%" },
     visible: (i: number) => ({
       y: 0,
       transition: {
         duration: 1,
-        ease: [0.76, 0, 0.24, 1],
-        delay: i * 0.1 + 2.2, // Delay para esperar al Preloader
+        ease: [0.76, 0, 0.24, 1] as any,
+        delay: i * 0.1 + 2.2,
       },
     }),
   };
 
-  const container = {
-    visible: {
-      transition: {
-        staggerChildren: 0.1,
-      },
-    },
-  };
-
   return (
-    <section className="relative min-h-screen w-full flex flex-col justify-center px-6 md:px-12 lg:px-24 overflow-hidden bg-[#020617]">
+    // ELIMINADO: bg-[#020617]
+    // AÑADIDO: z-10 para asegurar interacción sobre el fondo fixed
+    <section className="relative min-h-screen w-full flex flex-col justify-center px-6 md:px-12 lg:px-24 overflow-hidden z-10">
       
-      {/* Fondo Ambiental Sutil (Sin cajas) */}
-      <div className="absolute top-[-20%] right-[-10%] w-[600px] h-[600px] bg-primary/20 rounded-full blur-[120px] pointer-events-none opacity-40 mix-blend-screen" />
-      <div className="absolute bottom-[-10%] left-[-10%] w-[500px] h-[500px] bg-blue-600/10 rounded-full blur-[100px] pointer-events-none opacity-30" />
+      {/* ELIMINADO: Divs de luces ambientales (ahora están en layout.tsx) */}
 
-      {/* Contenido Principal */}
       <div className="z-10 w-full max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-12 gap-12 items-end">
         
-        {/* Columna Izquierda: Tipografía Gigante */}
+        {/* Columna Izquierda */}
         <div className="lg:col-span-8 flex flex-col">
-            
-          {/* ROL / ETIQUETA SUPERIOR */}
           <motion.div 
              initial={{ opacity: 0 }} 
              animate={{ opacity: 1 }} 
@@ -51,7 +39,6 @@ export default function Hero() {
             </span>
           </motion.div>
 
-          {/* NOMBRE GIGANTE (MASK EFFECT) */}
           <div className="overflow-hidden">
             <motion.h1 
                 custom={0} 
@@ -76,7 +63,7 @@ export default function Hero() {
           </div>
         </div>
 
-        {/* Columna Derecha: Descripción y CTA (Minimalista) */}
+        {/* Columna Derecha */}
         <div className="lg:col-span-4 flex flex-col justify-end pb-4">
            <motion.p 
               initial={{ opacity: 0, y: 20 }}
@@ -90,7 +77,6 @@ export default function Hero() {
              <span className="text-white font-medium"> IoT</span>.
            </motion.p>
 
-           {/* Botones SIN CARDS */}
            <motion.div 
              initial={{ opacity: 0 }}
              animate={{ opacity: 1 }}
@@ -111,7 +97,7 @@ export default function Hero() {
         </div>
       </div>
 
-      {/* Footer del Hero: Stack Tecnológico (Ticker o Lista limpia) */}
+      {/* Footer del Hero */}
       <motion.div 
          initial={{ opacity: 0 }}
          animate={{ opacity: 1 }}
@@ -135,7 +121,6 @@ export default function Hero() {
   );
 }
 
-// Componente pequeño para links sociales limpios (sin botones grandes)
 function SocialLink({ href, icon }: { href: string; icon: React.ReactNode }) {
   return (
     <a 
