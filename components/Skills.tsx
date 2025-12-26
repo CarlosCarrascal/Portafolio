@@ -10,7 +10,7 @@ export default function Skills() {
   return (
     // ELIMINADO: bg-[#020617]
     // AÑADIDO: relative z-10
-    <section className="relative z-10 py-24 overflow-hidden border-b border-white/5">
+    <section className="relative z-10 py-20 overflow-hidden border-b border-white/5">
       {/* Título pequeño */}
       <div className="px-6 md:px-12 mb-12">
         <h2 className="text-sm font-mono text-white/40 uppercase tracking-[0.2em]">

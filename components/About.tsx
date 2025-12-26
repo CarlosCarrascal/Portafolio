@@ -46,7 +46,7 @@ export default function About() {
   return (
     // ELIMINADO: bg-[#020617]
     // AÑADIDO: relative z-10
-    <section id="about" className="relative z-10 py-32 px-4 md:px-12 min-h-screen flex flex-col justify-center overflow-hidden">
+    <section id="about" className="relative z-10 py-20 px-4 md:px-12 min-h-screen flex flex-col justify-center overflow-hidden">
       
       {/* HEADER */}
       <div className="max-w-7xl mx-auto w-full mb-12 flex flex-col md:flex-row md:items-end justify-between gap-6 relative z-10">
