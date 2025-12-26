@@ -7,7 +7,7 @@ import { ArrowUpRight, Github } from "lucide-react";
 import projectsData from "@/data/projects.json";
 
 export default function Projects() {
-  const targetRef = useRef<HTMLDivElement | null>(null);
+  const targetRef = useRef(null);
   
   const { scrollYProgress } = useScroll({
     target: targetRef,
@@ -17,8 +17,6 @@ export default function Projects() {
   const x = useTransform(scrollYProgress, [0, 1], ["0%", "-85%"]);
 
   return (
-    // ELIMINADO: bg-[#020617]
-    // AÑADIDO: relative z-10 para estar sobre el fondo
     <section id="projects" className="relative z-10">
       
       {/* =========================================
@@ -27,14 +25,21 @@ export default function Projects() {
       <div ref={targetRef} className="hidden md:block h-[300vh] relative">
         <div className="sticky top-0 flex h-screen items-center overflow-hidden">
           
-          {/* Título de Fondo (Ahora flota sobre el fondo global) */}
+          {/* Título de Fondo */}
           <div className="absolute top-20 left-20 z-0 opacity-10 pointer-events-none">
              <h2 className="text-[10vw] font-bold text-white leading-none tracking-tighter">
                  SELECTED
              </h2>
           </div>
 
-          <motion.div style={{ x }} className="flex gap-20 px-20 z-10 relative items-center">
+          {/* AQUÍ ESTÁ EL CAMBIO CLAVE:
+             Agregué 'mt-32' (puedes subirlo a mt-40 si quieres más abajo).
+             Esto empuja todo el carril de cards hacia abajo, llenando el vacío inferior.
+          */}
+          <motion.div 
+            style={{ x }} 
+            className="flex gap-20 px-20 z-10 relative items-center mt-20"
+          >
             
             {/* 1. Intro Card */}
             <div className="flex flex-col justify-center min-w-[400px]">
@@ -46,7 +51,7 @@ export default function Projects() {
                  (Scroll para explorar)
                </p>
                <div className="mt-8 text-white/40 text-sm font-mono animate-pulse">
-                  → SCROLL DOWN TO EXPLORE
+                 → SCROLL DOWN TO EXPLORE
                </div>
             </div>
 
@@ -71,7 +76,7 @@ export default function Projects() {
 
 
       {/* =========================================
-          VERSIÓN MOBILE
+          VERSIÓN MOBILE (Sin cambios)
          ========================================= */}
       <div className="block md:hidden py-20 px-6">
         <div className="mb-12">
@@ -96,7 +101,7 @@ export default function Projects() {
   );
 }
 
-// Sub-componentes (Sin cambios, solo heredan transparencia)
+// ... Tus componentes ProjectItemDesktop y ProjectItemMobile siguen igual ...
 function ProjectItemDesktop({ project }: { project: any }) {
   return (
     <div className="relative group min-w-[60vw] lg:min-w-[45vw] flex flex-col gap-6">
