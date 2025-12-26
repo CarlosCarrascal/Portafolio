@@ -1,14 +1,12 @@
 import type { Metadata } from "next";
-import { Inter, Calistoga } from "next/font/google"; // Asegúrate de tener tus fuentes aquí
+import { Inter } from "next/font/google"; // Eliminada Calistoga si no se usa
 import "./globals.css";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
-import Preloader from "@/components/preloader";     // Nuevo
-import CustomCursor from "@/components/CustomCursor"; // Nuevo
+import Preloader from "@/components/preloader"; // Ojo: tu archivo se llama 'preloader.tsx' (minúscula)
+import CustomCursor from "@/components/CustomCursor";
 
 const inter = Inter({ subsets: ["latin"], variable: "--font-inter" });
-// Si usas otra fuente display, defínela aquí, si no, borra la referencia a Calistoga
-// const calistoga = Calistoga({ weight: "400", subsets: ["latin"], variable: "--font-cal" });
 
 export const metadata: Metadata = {
   title: "Carlos Carrascal | Full Stack Developer",
@@ -22,15 +20,15 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="es" className="scroll-smooth">
-      <body className={`${inter.variable} bg-background text-text-main antialiased`}>
-        {/* Componentes Globales de UI */}
+      {/* Movemos overflow-x-hidden aquí para proteger el sticky */}
+      <body className={`${inter.variable} bg-background text-text-main antialiased overflow-x-hidden`}>
         <Preloader />
         <CustomCursor />
         
-        {/* Layout Principal */}
         <Header />
         
-        <main className="min-h-screen relative overflow-x-hidden">
+        {/* Main limpio para que el sticky funcione perfecto */}
+        <main className="min-h-screen relative">
           {children}
         </main>
 

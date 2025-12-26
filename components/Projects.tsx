@@ -9,129 +9,153 @@ import projectsData from "@/data/projects.json";
 export default function Projects() {
   const targetRef = useRef<HTMLDivElement | null>(null);
   
-  // Hook de Scroll: Detecta el progreso de scroll en este contenedor
+  // Detectamos scroll SOLO dentro de esta sección
   const { scrollYProgress } = useScroll({
     target: targetRef,
+    // "start start": cuando el top de la sección toca el top del viewport
+    // "end end": cuando el fondo de la sección toca el fondo del viewport
+    offset: ["start start", "end end"] 
   });
 
-  // Transformación Mágica: Convierte scroll Vertical (0% a 100%) en movimiento Horizontal (1% a -95%)
-  // Ajusta el "-95%" dependiendo de cuántos proyectos tengas para que llegue al final
-  const x = useTransform(scrollYProgress, [0, 1], ["1%", "-95%"]);
+  // Transformación horizontal (Ajustada para que no deje tanto hueco al final)
+  // Si tienes pocos proyectos, usa un valor menor (ej: "-60%")
+  // Si tienes muchos, usa uno mayor (ej: "-90%")
+  const x = useTransform(scrollYProgress, [0, 1], ["0%", "-85%"]);
 
   return (
-    // CONTENEDOR GIGANTE (H-300VH) PARA DAR ESPACIO AL SCROLL
-    <section ref={targetRef} id="projects" className="relative h-[300vh] bg-[#020617]">
+    <section id="projects" className="bg-[#020617] relative z-10">
       
-      {/* CONTENEDOR STICKY: Se pega a la pantalla mientras scrolleas el padre */}
-      <div className="sticky top-0 flex h-screen items-center overflow-hidden">
-        
-        {/* TÍTULO FIJO DE FONDO (Opcional, da profundidad) */}
-        <div className="absolute top-10 left-10 md:left-20 z-0">
-            <h2 className="text-[12vw] font-bold text-white/5 leading-none tracking-tighter select-none">
-                WORKS
-            </h2>
-        </div>
-
-        {/* CARRUSEL HORIZONTAL MOVIBLE */}
-        <motion.div style={{ x }} className="flex gap-12 md:gap-24 px-12 md:px-24 z-10 relative">
+      {/* =========================================
+          VERSIÓN DESKTOP (Horizontal Scroll) 
+          Solo visible en pantallas medianas hacia arriba (md:block)
+         ========================================= */}
+      <div ref={targetRef} className="hidden md:block h-[300vh] relative">
+        <div className="sticky top-0 flex h-screen items-center overflow-hidden">
           
-          {/* Tarjeta de INTRODUCCIÓN (La primera del carrusel) */}
-          <div className="flex flex-col justify-center min-w-[300px] md:min-w-[400px]">
-             <h3 className="text-4xl md:text-6xl font-bold text-white mb-6 leading-tight">
-               Proyectos <br/> <span className="text-primary">Destacados</span>
-             </h3>
-             <p className="text-white/60 text-lg max-w-sm">
-               Una colección de soluciones técnicas. Desliza para explorar la galería horizontal.
-             </p>
-             <div className="mt-8 flex items-center gap-2 text-white/40 font-mono text-sm">
-                <span>SCROLL DOWN</span>
-                <span className="animate-bounce">↓</span>
-             </div>
+          {/* Título de Fondo */}
+          <div className="absolute top-20 left-20 z-0 opacity-10 pointer-events-none">
+             <h2 className="text-[10vw] font-bold text-white leading-none tracking-tighter">
+                 SELECTED
+             </h2>
           </div>
 
-          {/* MAPEO DE PROYECTOS */}
-          {projectsData.map((project) => (
-            <ProjectItem key={project.id} project={project} />
-          ))}
+          <motion.div style={{ x }} className="flex gap-20 px-20 z-10 relative items-center">
+            
+            {/* 1. Intro Card */}
+            <div className="flex flex-col justify-center min-w-[400px]">
+               <h3 className="text-6xl font-bold text-white mb-6 leading-tight">
+                 Trabajos <br/> <span className="text-primary">Recientes</span>
+               </h3>
+               <p className="text-white/60 text-lg max-w-sm">
+                 Una selección de mis proyectos más ambiciosos. <br/>
+                 (Scroll para explorar)
+               </p>
+               <div className="mt-8 text-white/40 text-sm font-mono animate-pulse">
+                  → SCROLL DOWN TO EXPLORE
+               </div>
+            </div>
 
-          {/* Tarjeta FINAL (Call to Action) */}
-          <div className="flex flex-col justify-center items-center min-w-[300px] md:min-w-[400px] h-[50vh] border-l border-white/10 pl-24">
-             <h3 className="text-3xl font-bold text-white mb-4">¿Quieres ver más?</h3>
-             <a href="https://github.com/CarlosCarrascal" target="_blank" className="px-8 py-4 rounded-full border border-white/20 text-white hover:bg-white hover:text-black transition-all duration-300 font-bold flex items-center gap-2">
-                <Github className="w-5 h-5" /> GitHub Profile
-             </a>
-          </div>
+            {/* 2. Proyectos Mapeados */}
+            {projectsData.map((project) => (
+              <ProjectItemDesktop key={project.id} project={project} />
+            ))}
 
-        </motion.div>
+            {/* 3. Outro Card */}
+            <div className="min-w-[300px] flex items-center justify-center border-l border-white/10 pl-20 ml-10">
+               <a href="https://github.com/CarlosCarrascal" target="_blank" className="group flex flex-col items-center gap-4 text-white/50 hover:text-white transition-colors">
+                  <div className="p-6 rounded-full border border-white/10 group-hover:bg-white group-hover:text-black transition-all duration-500">
+                    <Github className="w-8 h-8" />
+                  </div>
+                  <span className="font-mono text-sm tracking-widest">VER TODO EN GITHUB</span>
+               </a>
+            </div>
+
+          </motion.div>
+        </div>
       </div>
+
+
+      {/* =========================================
+          VERSIÓN MOBILE (Vertical List) 
+          Solo visible en pantallas pequeñas (md:hidden)
+         ========================================= */}
+      <div className="block md:hidden py-20 px-6">
+        <div className="mb-12">
+            <h2 className="text-4xl font-bold text-white mb-2">Proyectos</h2>
+            <p className="text-white/60">Desliza hacia abajo para ver más.</p>
+        </div>
+        
+        <div className="flex flex-col gap-16">
+          {projectsData.map((project) => (
+             <ProjectItemMobile key={project.id} project={project} />
+          ))}
+        </div>
+        
+        <div className="mt-16 text-center">
+             <a href="https://github.com/CarlosCarrascal" target="_blank" className="inline-block px-6 py-3 rounded-full border border-white/20 text-white font-medium">
+                Ver GitHub
+             </a>
+        </div>
+      </div>
+
     </section>
   );
 }
 
-// SUB-COMPONENTE PARA CADA PROYECTO (Diseño limpio y grande)
-function ProjectItem({ project }: { project: any }) {
+// --- SUB-COMPONENTES PARA MANTENER EL CÓDIGO LIMPIO ---
+
+function ProjectItemDesktop({ project }: { project: any }) {
   return (
-    <div className="relative group min-w-[85vw] md:min-w-[60vw] lg:min-w-[45vw] flex flex-col gap-6">
-      
-      {/* IMAGEN DEL PROYECTO (Aspecto Cinematic 16:9 o ultra-wide) */}
-      <div className="relative h-[40vh] md:h-[50vh] w-full overflow-hidden rounded-2xl bg-white/5 border border-white/10 group-hover:border-primary/50 transition-colors duration-500">
-         {/* Overlay oscuro que desaparece al hover */}
+    <div className="relative group min-w-[60vw] lg:min-w-[45vw] flex flex-col gap-6">
+      <div className="relative h-[50vh] w-full overflow-hidden rounded-2xl bg-white/5 border border-white/10">
          <div className="absolute inset-0 bg-black/20 group-hover:bg-transparent transition-colors duration-500 z-10" />
          
          {project.image ? (
-            <Image 
-              src={project.image} 
-              alt={project.title} 
-              fill 
-              className="object-cover transition-transform duration-700 group-hover:scale-110"
-            />
+            <Image src={project.image} alt={project.title} fill className="object-cover transition-transform duration-700 group-hover:scale-105" />
          ) : (
-            <div className="w-full h-full flex items-center justify-center bg-zinc-900">
-               <span className="text-white/20 font-mono text-xl">NO PREVIEW</span>
-            </div>
+            <div className="w-full h-full flex items-center justify-center bg-zinc-900 text-white/20">NO PREVIEW</div>
          )}
 
-         {/* Botón flotante que aparece al hover */}
-         <a 
-           href={project.demoUrl || project.repoUrl} 
-           target="_blank"
-           className="absolute bottom-6 right-6 z-20 w-16 h-16 bg-white rounded-full flex items-center justify-center opacity-0 translate-y-4 group-hover:opacity-100 group-hover:translate-y-0 transition-all duration-300 hover:scale-110"
-         >
-            <ArrowUpRight className="w-8 h-8 text-black" />
+         <a href={project.demoUrl || project.repoUrl} target="_blank" className="absolute bottom-6 right-6 z-20 p-4 bg-white rounded-full opacity-0 translate-y-4 group-hover:opacity-100 group-hover:translate-y-0 transition-all duration-300">
+            <ArrowUpRight className="w-6 h-6 text-black" />
          </a>
       </div>
 
-      {/* INFO DEL PROYECTO (Debajo de la imagen) */}
-      <div className="flex flex-col gap-2">
-         <div className="flex justify-between items-end border-b border-white/10 pb-4">
-            <div>
-                <span className="text-primary font-mono text-sm tracking-widest uppercase mb-2 block">
-                    {project.category}
-                </span>
-                <h3 className="text-3xl md:text-5xl font-bold text-white group-hover:text-primary transition-colors duration-300">
-                    {project.title}
-                </h3>
-            </div>
-            <span className="text-white/20 font-mono text-xl hidden md:block">
-                0{project.id}
-            </span>
+      <div className="flex justify-between items-start">
+         <div>
+            <span className="text-primary text-xs font-mono tracking-widest uppercase mb-1 block">{project.category}</span>
+            <h3 className="text-4xl font-bold text-white mb-2">{project.title}</h3>
+            <p className="text-white/60 text-sm max-w-md line-clamp-2">{project.description}</p>
          </div>
-         
-         <div className="flex justify-between items-start mt-2">
-             <p className="text-white/60 max-w-md text-sm md:text-base line-clamp-2">
-                 {project.description}
-             </p>
-             {/* Tech Stack Mini Tags */}
-             <div className="flex gap-2">
-                {project.tech.slice(0, 2).map((t: string) => (
-                    <span key={t} className="px-2 py-1 text-xs border border-white/10 text-white/50 rounded-md">
-                        {t}
-                    </span>
-                ))}
-             </div>
+         <div className="flex gap-2 mt-2">
+            {project.tech.slice(0, 2).map((t: string) => (
+               <span key={t} className="px-2 py-1 text-[10px] border border-white/10 text-white/40 rounded uppercase tracking-wider">{t}</span>
+            ))}
          </div>
       </div>
-
     </div>
   );
+}
+
+function ProjectItemMobile({ project }: { project: any }) {
+    return (
+      <div className="flex flex-col gap-4">
+        <div className="relative aspect-video w-full overflow-hidden rounded-xl bg-white/5 border border-white/10">
+           {project.image && <Image src={project.image} alt={project.title} fill className="object-cover" />}
+        </div>
+        <div>
+           <h3 className="text-2xl font-bold text-white">{project.title}</h3>
+           <p className="text-white/60 text-sm mt-2 line-clamp-3">{project.description}</p>
+           <div className="flex flex-wrap gap-2 mt-4">
+              {project.tech.map((t: string) => (
+                 <span key={t} className="px-2 py-1 text-xs bg-white/5 text-white/60 rounded">{t}</span>
+              ))}
+           </div>
+           <div className="mt-4 flex gap-4">
+               {project.demoUrl && <a href={project.demoUrl} className="text-primary text-sm font-bold underline">Ver Demo</a>}
+               {project.repoUrl && <a href={project.repoUrl} className="text-white text-sm font-bold underline">Código</a>}
+           </div>
+        </div>
+      </div>
+    );
 }
