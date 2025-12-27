@@ -37,33 +37,31 @@ const TECH_STACK = [
 
 export default function Skills() {
   return (
-    // AJUSTE 1: Altura equilibrada (py-20)
-    <section className="relative z-10 py-20 border-b border-white/5 bg-[#020617]/40 backdrop-blur-sm overflow-hidden">
+    <section className="relative z-10 py-12 overflow-hidden bg-white/[0.02] backdrop-blur-sm border-y border-white/10">
+      
       {/* Título */}
-      <div className="container mx-auto px-6 mb-16 text-center">
-        <h2 className="text-3xl md:text-5xl font-bold text-white tracking-tight">
-          Tech <span className="text-white/20">Stack</span>
+      <div className="container mx-auto px-6 mb-12 text-center relative z-10">
+        <h2 className="text-3xl md:text-5xl font-bold text-white tracking-tight mb-4">
+          Tech 
+          <span className="text-primary/80 ml-2">Stack</span>
         </h2>
       </div>
 
       {/* Sombras laterales */}
-      <div className="absolute inset-y-0 left-0 w-32 z-20 bg-gradient-to-r from-[#020617] to-transparent pointer-events-none" />
-      <div className="absolute inset-y-0 right-0 w-32 z-20 bg-gradient-to-l from-[#020617] to-transparent pointer-events-none" />
+      <div className="absolute inset-y-0 left-0 w-24 md:w-48 z-20 bg-gradient-to-r from-[#020617] to-transparent pointer-events-none" />
+      <div className="absolute inset-y-0 right-0 w-24 md:w-48 z-20 bg-gradient-to-l from-[#020617] to-transparent pointer-events-none" />
 
       {/* CARRUSELES */}
-      {/* AJUSTE 2: Más separación entre las filas (gap-16) */}
-      <div className="flex flex-col gap-16">
-        {/* Fila 1 */}
+      <div className="flex flex-col gap-6 relative z-10">
         <InfiniteLoopSlider duration={50} reverse={false}>
           {TECH_STACK.map((tech, i) => (
-            <TechItem key={`row1-${i}`} tech={tech} />
+            <TechCard key={`row1-${i}`} tech={tech} />
           ))}
         </InfiniteLoopSlider>
 
-        {/* Fila 2 (Inversa) */}
         <InfiniteLoopSlider duration={60} reverse={true}>
           {[...TECH_STACK].reverse().map((tech, i) => (
-            <TechItem key={`row2-${i}`} tech={tech} />
+            <TechCard key={`row2-${i}`} tech={tech} />
           ))}
         </InfiniteLoopSlider>
       </div>
@@ -71,25 +69,30 @@ export default function Skills() {
   );
 }
 
-// --- ITEM INDIVIDUAL ---
-function TechItem({ tech }: { tech: (typeof TECH_STACK)[0] }) {
+// --- CARD MEJORADA (Borde sutil en lugar de línea) ---
+function TechCard({ tech }: { tech: (typeof TECH_STACK)[0] }) {
   const { Icon, color, name } = tech;
 
   return (
-    <div className="group flex items-center gap-6 cursor-default min-w-max px-4">
-      {/* AJUSTE 3: Icono más grande (size 50) */}
-      <div className="relative flex items-center justify-center transition-transform duration-300 group-hover:scale-110">
+    <div
+      className="group relative flex items-center gap-4 px-5 py-3 rounded-xl border border-white/5 bg-transparent transition-colors duration-500 hover:border-[var(--tech-color)] overflow-hidden cursor-default"
+      style={{ "--tech-color": color } as React.CSSProperties}
+    >
+      {/* 1. FONDO DE COLOR (Sutil) */}
+      <div className="absolute inset-0 bg-[var(--tech-color)] opacity-0 group-hover:opacity-[0.08] transition-opacity duration-500 pointer-events-none" />
+
+      {/* ELIMINADO: La línea inferior "tipo láser" que no te gustaba */}
+
+      {/* Contenedor del Icono */}
+      <div className="relative h-10 w-10 flex items-center justify-center z-10">
         <Icon
-          size={50}
-          className="transition-all duration-300 filter grayscale opacity-40 group-hover:grayscale-0 group-hover:opacity-100"
-          style={{ color: "currentColor" }}
-          onMouseEnter={(e) => (e.currentTarget.style.color = color)}
-          onMouseLeave={(e) => (e.currentTarget.style.color = "")}
+          size={28}
+          className="transition-all duration-300 filter grayscale opacity-50 group-hover:grayscale-0 group-hover:opacity-100 group-hover:scale-110 group-hover:text-[var(--tech-color)]"
         />
       </div>
 
-      {/* AJUSTE 4: Texto más grande y grueso (text-2xl/3xl bold) */}
-      <span className="text-2xl md:text-4xl font-bold text-white/30 group-hover:text-white transition-colors duration-300 tracking-tight">
+      {/* Texto */}
+      <span className="text-lg font-medium text-white/40 group-hover:text-white transition-colors duration-300 tracking-wide pr-2 z-10">
         {name}
       </span>
     </div>
@@ -109,8 +112,7 @@ function InfiniteLoopSlider({
   return (
     <div className="flex w-full overflow-hidden relative">
       <motion.div
-        // AJUSTE 5: Gap horizontal generoso (gap-20)
-        className="flex items-center gap-20 md:gap-32 px-4 hover:[animation-play-state:paused]"
+        className="flex items-center"
         animate={{
           x: reverse ? ["-50%", "0%"] : ["0%", "-50%"],
         }}
@@ -121,9 +123,14 @@ function InfiniteLoopSlider({
         }}
         style={{ width: "max-content" }}
       >
-        {children}
-        {children}
-        {children}
+        {[...Array(2)].map((_, i) => (
+          <div
+            key={i}
+            className="flex items-center gap-6 px-3 pr-6"
+          >
+            {children}
+          </div>
+        ))}
       </motion.div>
     </div>
   );

@@ -14,13 +14,19 @@ export default function Projects() {
     offset: ["start start", "end end"] 
   });
 
-  const x = useTransform(scrollYProgress, [0, 1], ["0%", "-85%"]);
+  // SOLUCIÓN AQUÍ: 
+  // Cambiamos ["0%", "-85%"] a ["0%", "-55%"].
+  // Al reducir este porcentaje negativo, el carrusel se mueve menos distancia 
+  // hacia la izquierda, evitando que quede ese gran espacio vacío al final.
+  // Si aún sobra espacio, reduce a -50%. Si falta ver contenido, sube a -60%.
+  const x = useTransform(scrollYProgress, [0, 1], ["0%", "-75%"]);
 
   return (
     <section id="projects" className="relative z-10">
       
       {/* =========================================
           VERSIÓN DESKTOP (Horizontal Scroll) 
+          Mantenemos h-[300vh] como pediste
          ========================================= */}
       <div ref={targetRef} className="hidden md:block h-[300vh] relative">
         <div className="sticky top-0 flex h-screen items-center overflow-hidden">
@@ -32,13 +38,9 @@ export default function Projects() {
              </h2>
           </div>
 
-          {/* AQUÍ ESTÁ EL CAMBIO CLAVE:
-             Agregué 'mt-32' (puedes subirlo a mt-40 si quieres más abajo).
-             Esto empuja todo el carril de cards hacia abajo, llenando el vacío inferior.
-          */}
           <motion.div 
             style={{ x }} 
-            className="flex gap-20 px-20 z-10 relative items-center mt-20"
+            className="flex gap-20 px-20 z-10 relative items-center" // Mantenemos el mt-32/mt-20 que prefieras
           >
             
             {/* 1. Intro Card */}
@@ -101,7 +103,8 @@ export default function Projects() {
   );
 }
 
-// ... Tus componentes ProjectItemDesktop y ProjectItemMobile siguen igual ...
+// --- Componentes Auxiliares ---
+
 function ProjectItemDesktop({ project }: { project: any }) {
   return (
     <div className="relative group min-w-[60vw] lg:min-w-[45vw] flex flex-col gap-6">
