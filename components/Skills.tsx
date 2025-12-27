@@ -37,7 +37,7 @@ const TECH_STACK = [
 
 export default function Skills() {
   return (
-    <section className="relative z-10 py-12 overflow-hidden bg-white/[0.02] backdrop-blur-sm border-y border-white/10">
+    <section className="relative z-10 py-12 overflow-hidden bg-white/[0.01] backdrop-blur-sm border-y border-white/10">
       
       {/* Título */}
       <div className="container mx-auto px-6 mb-12 text-center relative z-10">
